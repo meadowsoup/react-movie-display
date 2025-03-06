@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 
 // Import our components
@@ -12,18 +12,28 @@ function App() {
   const [movie, setMovie] = useState(null);
 
   const getMovie = async (searchFilm) => {
-    const response = await fetch(
-      `http://www.omdbapi.com/?apikey=${apiKey}&t=${searchTerm}`
-    );
+    try {
+        const response = await fetch(
+        `http://www.omdbapi.com/?apikey=${apiKey}&t=${searchFilm}`
+        );
+  
+        const data = await response.json();
+        setMovie(data);
+      } catch (e) {
+        console.error("Error fetching movie:", e);
+      }
+    };
 
-    const data = await response.json();
-    setMovie(data);
-  };
+  useEffect(() => {
+    const movies = ["Waiting", "Shrek", "Austin Powers", "Men In Black", "Zack and Miri Make A Porno"];
+    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+    getMovie(randomMovie);
+  }, []);
 
   return (
 
     <div className="App">
-      <Form movieSearch={getMovie} />
+      <Form moviesearch={getMovie} />
       <MovieDisplay movie={movie}/>
     </div>
 
