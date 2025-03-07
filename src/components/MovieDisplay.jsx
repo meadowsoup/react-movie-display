@@ -3,27 +3,24 @@
 
 function MovieDisplay({ movie }) {
 
-  if (!movie) {
-    return <h2>Search movie for details</h2>;
-  }
+  // Function to show movie details
+  const loaded = () => {
+    return (
+      <div>
+        <h1>{movie.Title}</h1>
+        <h2>{movie.Genre}</h2>
+        <img src={movie.Poster} alt={movie.Title} />
+        <h2>{movie.Year}</h2>
+        <p>{movie.Plot}</p>
+      </div>
+    );
+  };
 
-  if (movie.response === "false") {
-    return <h2>Movie not found. Try another title.</h2>
-  }
+  const loading = () => {
+    return <h1>No Movie to Display</h1>
+  };
 
-  return (
-    <div>
-      <h1>{movie.title}</h1>
-      <h2>Released: {movie.year}</h2>
-      <img src={movie.poster} alt={movie.title} />
-      <p>{movie.plot}</p>
-      <h3>Genre: {movie.genre}</h3>
-      <h4>Director: {movie.director}</h4>
-    </div>
-  )
-     // The component must return some JSX
-    //  return <h1>The MovieDisplay Component</h1>;
-   };
-
-   
+  return movie ? loaded() : loading();
+};
+  
    export default MovieDisplay;
